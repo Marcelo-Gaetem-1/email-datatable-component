@@ -1,0 +1,71 @@
+<template>
+    <lightning-card title="📧 Correos enviados al cliente">
+        <template if:true={isLoading}>
+            <lightning-spinner alternative-text="Cargando correos..."></lightning-spinner>
+        </template>
+
+        <lightning-button
+            slot="actions"
+            label="Actualizar"
+            variant="base"
+            onclick={handleRefresh}>
+        </lightning-button>
+
+        <template if:true={emails.length}>
+            <lightning-datatable
+                key-field="id"
+                data={visibleRows}
+                columns={columns}
+                hide-checkbox-column
+                onrowaction={handleRowAction}>
+            </lightning-datatable>
+        </template>
+
+        <template if:true={hasMore}>
+            <div class="slds-p-top_x-small slds-text-align_center">
+                <lightning-button
+                    label={toggleLabel}
+                    variant="neutral"
+                    icon-position="right"
+                    icon-name={toggleIcon}
+                    onclick={toggleRows}>
+                </lightning-button>
+            </div>
+        </template>
+
+        <template if:true={showEmpty}>
+            <p class="slds-p-around_small">No hay correos visibles para el cliente.</p>
+        </template>
+
+        <template if:true={error}>
+            <p class="slds-text-color_error slds-p-around_small">
+                Error al cargar los correos. Intente nuevamente.
+            </p>
+        </template>
+    </lightning-card>
+
+    <template if:true={showModal}>
+        <section role="dialog" aria-modal="true" class="slds-modal slds-fade-in-open slds-modal_large">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <h2 class="slds-modal__title">Contenido del correo</h2>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium">
+                    <div class="slds-m-bottom_small">
+                        <p><strong>Asunto:</strong> {selectedEmail.subject}</p>
+                        <p><strong>Para:</strong> {selectedEmail.to}</p>
+                        <p><strong>Fecha:</strong>
+                           <lightning-formatted-date-time value={selectedEmail.date}></lightning-formatted-date-time>
+                        </p>
+                        <hr class="slds-m-vertical_small">
+                    </div>
+                    <lightning-formatted-rich-text value={selectedEmail.body}></lightning-formatted-rich-text>
+                </div>
+                <footer class="slds-modal__footer">
+                    <lightning-button variant="neutral" label="Cerrar" onclick={closeModal}></lightning-button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+</template>
