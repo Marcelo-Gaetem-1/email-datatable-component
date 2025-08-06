@@ -15,7 +15,7 @@ Este componente Lightning Web Component (LWC) muestra una tabla con los correos 
 ## 📸 Capturas
 
 ### 📌 Vista general
-![Overview](.01-Overview-EmailDataTable.png)
+![Overview](01-Overview-EmailDataTable.png)
 
 ### 💬 Modal del correo
 ![Modal](02-Modal.png)
